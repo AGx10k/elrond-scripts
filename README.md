@@ -1,5 +1,5 @@
 # elrond-scripts
-1. put your nodes to _nodes.sh (see exmaple)
+1. put your nodes to _nodes.sh (see example)
 2. run:
 ```
 ### sorted by shard
