@@ -6,6 +6,7 @@ else
         exit 1
 fi
 
+(
 echo "erd_shard_id,erd_count_accepted_blocks,erd_count_leader,erd_is_syncing,erd_node_type,erd_nonce,erd_current_round,erd_synchronized_round,NAME,addr"
 
 for i in "${nodes[@]}"; do
@@ -19,6 +20,7 @@ for i in "${nodes[@]}"; do
                 if [ "$shard" -eq "4294967295" ]; then
                         shard="M"
                 fi
-                echo "$shard,"$(jq -r '[.details | .erd_count_accepted_blocks, .erd_count_leader, .erd_is_syncing, .erd_node_type, .erd_nonce, .erd_current_round, .erd_synchronized_round ]| @csv' <<< "$curlout")",$i"
+                echo "$shard,"$(jq -r '[.details | .erd_count_accepted_blocks  // "-" , .erd_count_leader // "-" , .erd_is_syncing // "-", .erd_node_type // "-", .erd_nonce // "-", .erd_current_round // "-" , .erd_synchronized_round // "-" ]| @csv' <<< "$curlout")",$i"
         fi
 done
+) | column -t -s,
