@@ -2,18 +2,8 @@
 0. add your host to iptables like this: `iptables -I INPUT -s YOUR_IP/32 -p tcp -m multiport --dports _NODE_RPC_PORT_ -j ACCEPT`
 1. put your nodes to _nodes.sh (see example)
 2. run:
-```
-### sorted by shard (field 1) and then by erd_count_accepted_blocks (field 2)
-./elrond-check-multi.sh 1,1 2,2
 
-### sorted by accepted blocks
-./elrond-check-multi.sh 2,2
-
-### not sorted
-./elrond-check-multi.sh
-```
-
-sort by name (column 11, d for dictionary order):
+sort by name (column 11, d for dictionary order, see `man sort`):
 ```
 # ./elrond-check-multi.sh 11d
 shard  blocks  count_leader  syncing  node_type    nonce  cur_round  synced_round  consensus_state           peers  NAME        addr
