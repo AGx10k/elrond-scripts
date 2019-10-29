@@ -1,14 +1,30 @@
 #!/bin/bash
+case "$#" in
+        2)
+                sortKEYS="-k $1 -k $2"
+        ;;
+        1)
+                sortKEYS="-k $1"
+        ;;
+        0)
+                sortKEYS=""
+        ;;
+        *)
+                echo "Illegal number of parameters"
+                echo usage:
+                echo $0 [sort_KEYDEF1] [sort_KEYDEF2]
+                exit 1
+esac
+
+
 if [ -s _nodes.sh ]; then
         source _nodes.sh
 else
         echo _nodes.sh not found!
-        exit 1
+        exit 3
 fi
 
 (
-echo "erd_shard_id,erd_count_accepted_blocks,erd_count_leader,erd_is_syncing,erd_node_type,erd_nonce,erd_current_round,erd_synchronized_round,NAME,addr"
-
 for i in "${nodes[@]}"; do
         name=$(awk -F, '{print$1}' <<< "$i")
         addr=$(awk -F, '{print$2}' <<< "$i")
@@ -18,9 +34,11 @@ for i in "${nodes[@]}"; do
         else
                 shard=$(jq -r '.details.erd_shard_id' <<< "$curlout")
                 if [ "$shard" -eq "4294967295" ]; then
-                        shard="M"
+                        shard="-1"
                 fi
                 echo "$shard,"$(jq -r '[.details | .erd_count_accepted_blocks  // "-" , .erd_count_leader // "-" , .erd_is_syncing // "-", .erd_node_type // "-", .erd_nonce // "-", .erd_current_round // "-" , .erd_synchronized_round // "-" ]| @csv' <<< "$curlout")",$i"
         fi
 done
-) | column -t -s,
+) | sort -n -t , ${sortKEYS} \
+  | sed '1 i\erd_shard_id,erd_count_accepted_blocks,erd_count_leader,erd_is_syncing,erd_node_type,erd_nonce,erd_current_round,erd_synchronized_round,NAME,addr' \
+  | column -t -s,
