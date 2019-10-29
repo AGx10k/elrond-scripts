@@ -13,9 +13,8 @@
 ./elrond-check-multi.sh
 ```
 
-sample output:
+sort by name (column 11, d for dictionary order):
 ```
-#### sort by name (column 11, d for dictionary order)
 # ./elrond-check-multi.sh 11d
 shard  blocks  count_leader  syncing  node_type    nonce  cur_round  synced_round  consensus_state           peers  NAME        addr
 1      9       9             0        "validator"  1658   2002       2001          "not in consensus group"  918    AGx1        78.46.150.247:8080
@@ -24,8 +23,9 @@ shard  blocks  count_leader  syncing  node_type    nonce  cur_round  synced_roun
 -1     14      14            0        "validator"  1664   2002       2001          "participant"             918    AGx4        78.47.218.79:8080
 2      14      14            0        "validator"  1607   2002       2001          "participant"             917    AGx5        95.216.185.120:8080
 3      10      10            0        "validator"  1533   2002       1992          "participant"             918    AGx6        95.216.211.142:8080
-
-#### sort by by count_leader (column 3) and then by accepted_blocks (column 2)
+```
+sort by by count_leader (column 3) and then by accepted_blocks (column 2):
+```
 # ./elrond-check-multi.sh 3,3 2,2
 shard  blocks  count_leader  syncing  node_type    nonce  cur_round  synced_round  consensus_state           peers  NAME        addr
 1      9       9             0        "validator"  1735   2086       2085          "not in consensus group"  914    AGx1        78.46.150.247:8080
