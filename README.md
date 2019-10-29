@@ -1,5 +1,5 @@
 # ./elrond-check-multi.sh - just pull stats from multiple nodes
-0. add your host to iptables like this: `-A INPUT -s YOUR_IP/32 -p tcp -m multiport --dports _NODEPORT_ -j ACCEPT`
+0. add your host to iptables like this: `iptables -I INPUT -s YOUR_IP/32 -p tcp -m multiport --dports _NODEPORT_ -j ACCEPT`
 1. put your nodes to _nodes.sh (see example)
 2. run:
 ```
